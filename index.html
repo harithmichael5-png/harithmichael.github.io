@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bio-Calculus Dashboard: Livestock Growth Rates</title>
+    
+    <!-- Tailwind CSS for elegant design -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js for smooth animations and calculations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- KaTeX for rapid LaTeX mathematical typesetting -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .code-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.5);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(148, 163, 184, 0.3);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between selection:bg-emerald-500/30 selection:text-emerald-300">
+
+    <header class="border-b border-slate-800 bg-slate-900/40 backdrop-blur-md sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="p-2 bg-emerald-500/10 rounded-lg border border-emerald-500/20">
+                    <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-md sm:text-lg font-bold text-white tracking-tight">Applied Bio-Calculus Simulator</h1>
+                    <p class="text-xs text-slate-400">Animal Husbandry Technology Hub • Malaysia Edition</p>
+                </div>
+            </div>
+            <div class="hidden sm:flex items-center space-x-2 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700">
+                <span class="inline-block w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse"></span>
+                <span class="text-xs text-slate-300 font-medium">Logistic Regression Core Active</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-grow grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- Left Side: Educational Content, Equations, and Parameters -->
+        <div class="lg:col-span-5 flex flex-col space-y-6">
+            
+            <!-- Bioscience Problem Explanation Card -->
+            <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 relative overflow-hidden shadow-xl">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-3xl -z-10"></div>
+                <div class="flex items-center space-x-2 text-emerald-400 mb-3">
+                    <span class="text-lg">🌿</span>
+                    <h2 class="text-sm font-bold uppercase tracking-wider">The Husbandry Problem</h2>
+                </div>
+                <h3 class="text-xl font-bold text-slate-100 mb-2">Optimizing Beef Production with Derivative Dynamics</h3>
+                <p class="text-slate-300 text-sm leading-relaxed mb-4">
+                    In intensive Malaysian feedlots, managing feed formulation (such as oil palm frond silage and palm kernel cake) requires knowing the exact transition point from bone/muscle development to fat accumulation. 
+                </p>
+                <p class="text-slate-300 text-sm leading-relaxed mb-4">
+                    By calculating the **first derivative $f'(x)$** (Average Daily Gain), we can identify peak metabolism efficiency. The **second derivative $f''(x)$** tells us when acceleration slows down, signaling when keeping the cattle on feed results in diminishing economic returns.
+                </p>
+                <div class="bg-slate-950/80 rounded-xl p-3 border border-slate-800 text-xs text-slate-400 space-y-1">
+                    <div class="flex justify-between"><span class="font-medium text-slate-300">Data Source 1:</span> <span class="italic text-emerald-400">Buletin Teknologi MARDI (No. 43, 2023)</span></div>
+                    <div class="flex justify-between"><span class="font-medium text-slate-300">Data Source 2:</span> <span class="italic text-indigo-400">Malaysian Journal of Animal Science (MJAS)</span></div>
+                </div>
+            </div>
+
+            <!-- Math and Equations Card -->
+            <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 shadow-xl">
+                <div class="flex items-center space-x-2 text-indigo-400 mb-4">
+                    <span class="text-lg">📐</span>
+                    <h2 class="text-sm font-bold uppercase tracking-wider">Bio-Calculus Model Deck</h2>
+                </div>
+                
+                <!-- Tab system or simply listed equations -->
+                <div class="space-y-4">
+                    <!-- Weight Function f(x) -->
+                    <div class="bg-slate-950/80 p-4 rounded-xl border border-slate-800">
+                        <span class="text-xs font-semibold text-slate-400 block mb-2">Cattle Growth Logistic Function:</span>
+                        <div class="py-2 overflow-x-auto text-center" id="func-fx">
+                            $$f(x) = \frac{A}{1 + B e^{-kx}}$$
+                        </div>
+                        <p class="text-[11px] text-slate-400 mt-2 leading-relaxed">
+                            Yields cumulative weight (kg) at age <span class="text-indigo-400 font-semibold">x</span> (months). 
+                            <span class="text-slate-300 font-semibold">A</span> is mature weight, 
+                            <span class="text-slate-300 font-semibold">B</span> is the birth-scale constant, 
+                            and <span class="text-slate-300 font-semibold">k</span> is the maturing rate.
+                        </p>
+                    </div>
+
+                    <!-- Derivative Function f'(x) -->
+                    <div class="bg-slate-950/80 p-4 rounded-xl border border-slate-800">
+                        <span class="text-xs font-semibold text-indigo-400 block mb-2">First Derivative (Instantaneous Growth Velocity):</span>
+                        <div class="py-2 overflow-x-auto text-center" id="func-dfx">
+                            $$f'(x) = \frac{A \cdot B \cdot k \cdot e^{-kx}}{(1 + B e^{-kx})^2}$$
+                        </div>
+                        <p class="text-[11px] text-slate-400 mt-2 leading-relaxed">
+                            Yields weight change rate per month ($\text{kg/month}$). To convert to standard husbandry metric **Average Daily Gain (ADG)**, we compute:
+                            $$\text{ADG (g/day)} = \frac{f'(x) \times 1000}{30.4}$$
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side: Interactivity, Graph, breed selection, dynamic readout -->
+        <div class="lg:col-span-7 flex flex-col space-y-6">
+            
+            <!-- Breed Selector & Global Controls -->
+            <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 shadow-xl">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                            <span>🐄</span> Select Livestock Breed Parameters
+                        </h2>
+                        <p class="text-xs text-slate-400">Comparing performance parameters derived from Malaysian farm trials</p>
+                    </div>
+                    <div class="flex space-x-2">
+                        <select id="breedSelect" class="bg-slate-950 text-slate-200 text-xs rounded-lg border border-slate-700 px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                            <option value="kk_elite">Kedah-Kelantan Elite Cow</option>
+                            <option value="brakmas">Brakmas Crossbred Cow</option>
+                            <option value="bali">Bali Cattle Cow</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-3 gap-3 mt-4 text-xs">
+                    <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800/80 text-center">
+                        <span class="text-slate-400 block text-[10px]">Asymptote (A)</span>
+                        <span class="font-bold text-emerald-400 font-mono text-sm" id="param-A">-- kg</span>
+                    </div>
+                    <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800/80 text-center">
+                        <span class="text-slate-400 block text-[10px]">Integration Constant (B)</span>
+                        <span class="font-bold text-indigo-400 font-mono text-sm" id="param-B">--</span>
+                    </div>
+                    <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800/80 text-center">
+                        <span class="text-slate-400 block text-[10px]">Growth Index (k)</span>
+                        <span class="font-bold text-amber-400 font-mono text-sm" id="param-K">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chart panel with custom overlay canvas -->
+            <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 shadow-xl relative">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-slate-300">Predictive Sigmoidal Growth Curve</h2>
+                    <span class="text-[11px] bg-slate-800 text-slate-400 px-2.5 py-1 rounded-full">Interactive Click Mode</span>
+                </div>
+                <div class="relative h-64 w-full">
+                    <canvas id="growthChart"></canvas>
+                </div>
+                
+                <!-- Live slider controller -->
+                <div class="mt-4">
+                    <label class="flex justify-between text-xs text-slate-400 mb-1">
+                        <span>Move Slider to Adjust Inspection Point (Age):</span>
+                        <span class="font-bold text-emerald-400" id="sliderVal">21 months</span>
+                    </label>
+                    <input id="ageSlider" type="range" min="0" max="48" value="21" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500">
+                </div>
+            </div>
+
+            <!-- Dynamic Calculus Analysis Readout Card -->
+            <div id="inspectorCard" class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-2xl transition-all duration-300 border-l-4 border-l-emerald-500 relative">
+                <!-- Glowing corner light for active state -->
+                <div class="absolute top-2 right-4 flex space-x-1 items-center">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    </span>
+                    <span class="text-[9px] font-bold text-emerald-400 tracking-wider uppercase">Active Calculation</span>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-5">
+                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 text-center">
+                        <span class="text-[10px] uppercase font-bold tracking-wider text-slate-400">Animal Age</span>
+                        <div class="text-lg font-extrabold text-white mt-1 code-font" id="outAge">21 months</div>
+                    </div>
+                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 text-center">
+                        <span class="text-[10px] uppercase font-bold tracking-wider text-slate-400">Total Weight $f(x)$</span>
+                        <div class="text-lg font-extrabold text-emerald-400 mt-1 code-font" id="outWeight">125.0 kg</div>
+                    </div>
+                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 text-center">
+                        <span class="text-[10px] uppercase font-bold tracking-wider text-slate-400">ADG ($f'(x)$)</span>
+                        <div class="text-lg font-extrabold text-indigo-400 mt-1 code-font" id="outAdg">246 g/day</div>
+                    </div>
+                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 text-center">
+                        <span class="text-[10px] uppercase font-bold tracking-wider text-slate-400">Acceleration ($f''(x)$)</span>
+                        <div class="text-lg font-extrabold text-amber-400 mt-1 code-font" id="outAcc">0.0 kg/mo²</div>
+                    </div>
+                </div>
+
+                <!-- Bio-Calculus Layman Interpretation -->
+                <div class="bg-slate-950/80 border border-slate-800 rounded-xl p-4">
+                    <span class="text-xs font-bold uppercase tracking-wider text-emerald-400 block mb-2 flex items-center gap-1.5">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Student Field Insights (Derivative Interpretation)
+                    </span>
+                    <p id="outExplanation" class="text-xs sm:text-sm text-slate-200 leading-relaxed"></p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="border-t border-slate-900 bg-slate-950/80 py-6">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-xs text-slate-500 leading-relaxed">
+                Platform engineered for SFH: Animal Husbandry Technology. Realized parameters calibrated based on research trials published in standard Malaysian livestock proceedings.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Real biological growth data parameters mapped directly from research articles
+        const breedDatabase = {
+            kk_elite: {
+                name: "Kedah-Kelantan Elite Cow",
+                A: 249.3,
+                B: 12.85, // Computed constant to align with average 18.0 kg birth weight
+                k: 0.120, // Growth velocity parameter per month
+                source: "Buletin Teknologi MARDI, No. 43, 2023",
+                notes: "Indigenous purebreed optimized for humid environments, featuring high resilience but moderate structural limit."
+            },
+            brakmas: {
+                name: "Brakmas Crossbred Cow",
+                A: 328.8,
+                B: 15.28, // Matches average birth weight of 20.2 kg
+                k: 0.089, // Maturing index
+                source: "Malaysian Journal of Animal Science (v21i1)",
+                notes: "Crossbred cross of Brahman and local Kedah-Kelantan cattle. Superior structural frames and meat dressing rates."
+            },
+            bali: {
+                name: "Bali Cattle Cow",
+                A: 270.4,
+                B: 16.11, // Matches average 15.8 kg birth weight
+                k: 0.109,
+                source: "Malaysian Journal of Animal Science (v21i1)",
+                notes: "Exotic species representing Bos javanicus line. Solid bone development and high adaptability to tropical agricultural feedstocks."
+            }
+        };
+
+        // Active selection state
+        let currentBreedKey = 'kk_elite';
+        let activeMonth = 21; // Point of inflection for default KK breed (~21.3)
+        let chartInstance = null;
+
+        // Calculus: Primary weight function f(x)
+        function f(x, params) {
+            const { A, B, k } = params;
+            return A / (1 + B * Math.exp(-k * x));
+        }
+
+        // Calculus: First Derivative f'(x) (Instantaneous growth velocity per month)
+        function df(x, params) {
+            const { A, B, k } = params;
+            const expTerm = Math.exp(-k * x);
+            const numerator = A * B * k * expTerm;
+            const denominator = Math.pow(1 + B * expTerm, 2);
+            return numerator / denominator;
+        }
+
+        // Calculus: Second Derivative f''(x) (Instantaneous acceleration)
+        function ddf(x, params) {
+            const { A, B, k } = params;
+            const fxVal = f(x, params);
+            // Elegant relationship of Logistic derivatives:
+            // f''(x) = k^2 * f(x) * (1 - f(x)/A) * (1 - 2*f(x)/A)
+            const fraction = fxVal / A;
+            return Math.pow(k, 2) * fxVal * (1 - fraction) * (1 - 2 * fraction);
+        }
+
+        // Update technical parameter stats in UI
+        function updateParamDisplays(params) {
+            document.getElementById('param-A').innerText = params.A.toFixed(1) + " kg";
+            document.getElementById('param-B').innerText = params.B.toFixed(2);
+            document.getElementById('param-K').innerText = params.k.toFixed(3);
+        }
+
+        // Render dynamic mathematical and biological insights when month changes
+        function evaluateAtMonth(month) {
+            const params = breedDatabase[currentBreedKey];
+            const weight = f(month, params);
+            const rateMonth = df(month, params);
+            const rateDayGrams = (rateMonth * 1000) / 30.4; // Conversion to ADG (g/day)
+            const acceleration = ddf(month, params);
+
+            // Update UI Output readouts
+            document.getElementById('outAge').innerText = month + " mo";
+            document.getElementById('outWeight').innerText = weight.toFixed(1) + " kg";
+            document.getElementById('outAdg').innerText = Math.round(rateDayGrams) + " g/day";
+            document.getElementById('outAcc').innerText = (acceleration >= 0 ? "+" : "") + acceleration.toFixed(3) + " kg/mo²";
+            document.getElementById('sliderVal').innerText = month + " month" + (month !== 1 ? "s" : "");
+
+            // Calculate exact theoretical inflection age: ln(B) / k
+            const inflectionAge = Math.log(params.B) / params.k;
+            
+            // Build specialized laymen explanation depending on first & second derivative signs
+            let message = "";
+            let accentColor = "emerald";
+
+            if (month < Math.floor(inflectionAge)) {
+                // Acceleration is positive, f''(x) > 0
+                accentColor = "cyan";
+                message = `<strong>Accelerating Calfhood ($f''(x) > 0$):</strong> At age <strong>${month} months</strong>, the animal's weight is increasing, and its daily growth velocity is currently <strong>speeding up</strong>. This reflects early muscular and skeletal development. It is highly cost-effective to feed high-protein rations during this stage because the feed conversion ratio (FCR) is at its most efficient.`;
+            } else if (Math.abs(month - inflectionAge) <= 1.2) {
+                // Peak growth (near Inflection point)
+                accentColor = "emerald";
+                message = `<strong>Peak Feed Efficiency Point (Inflection Point: $f''(x) \\approx 0$):</strong> At approximately <strong>${month} months</strong>, this animal is experiencing its absolute maximum growth rate of <strong>${Math.round(rateDayGrams)} grams/day</strong>. Past this point, the rate of gain ($f'(x)$) will transition from accelerating to decelerating. Livestock managers often aim to optimize high-quality nutritional feeding directly around this window.`;
+            } else if (month > inflectionAge && weight < (params.A * 0.92)) {
+                // Decelerating growth, past inflection but not fully plateaued
+                accentColor = "amber";
+                message = `<strong>Decelerating Growing Phase ($f''(x) < 0$):</strong> The animal is now <strong>${month} months</strong> old. Its cumulative weight continues to rise to <strong>${weight.toFixed(1)} kg</strong>, but the instantaneous rate of gain is slowing down. The animal is starting to deposit fat rather than skeletal tissue. Farm managers should monitor feeding costs closely here as additional feed converts slower into commercial meat yield.`;
+            } else {
+                // Plateaud, near mature weight
+                accentColor = "rose";
+                message = `<strong>Mature Stabilization Stage ($f'(x) \\approx 0$):</strong> At <strong>${month} months</strong>, the cow has reached <strong>${weight.toFixed(1)} kg</strong>, approaching its asymptotic ceiling ($A = ${params.A} \\text{ kg}$). The first derivative has plummeted to a minimal <strong>${Math.round(rateDayGrams)} grams/day</strong>. Feeding the animal beyond this limit is highly uneconomical as feed is used solely for physiological maintenance, lowering commercial profitability.`;
+            }
+
+            // Apply contextual color highlights to the panel border
+            const card = document.getElementById('inspectorCard');
+            card.className = `bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-2xl transition-all duration-300 border-l-4 border-l-${accentColor}-500 relative`;
+            
+            document.getElementById('outExplanation').innerHTML = message;
+            
+            // Re-render LaTeX math markers in the explanations
+            renderMathInElement(document.getElementById('outExplanation'), {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "$", right: "$", display: false}
+                ]
+            });
+        }
+
+        // Initialize and maintain Chart.js structure
+        function renderGrowthChart() {
+            const params = breedDatabase[currentBreedKey];
+            const dataPoints = [];
+            const labels = [];
+            const highlightData = Array(49).fill(null);
+
+            // Populate coordinates
+            for (let x = 0; x <= 48; x++) {
+                labels.push(x);
+                dataPoints.push(f(x, params).toFixed(2));
+            }
+
+            // Put indicator dot on the active coordinate
+            highlightData[activeMonth] = f(activeMonth, params).toFixed(2);
+
+            const data = {
+                labels: labels,
+                datasets: [
+                    {
+                        label: `${params.name} (Live Weight - kg)`,
+                        data: dataPoints,
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.05)',
+                        borderWidth: 3,
+                        pointRadius: 1.5,
+                        pointHoverRadius: 4,
+                        fill: true,
+                        tension: 0.1
+                    },
+                    {
+                        label: 'Active Month Marker',
+                        data: highlightData,
+                        borderColor: '#f43f5e',
+                        backgroundColor: '#f43f5e',
+                        pointRadius: 7,
+                        pointHoverRadius: 9,
+                        showLine: false
+                    }
+                ]
+            };
+
+            const config = {
+                type: 'line',
+                data: data,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: {
+                            title: { display: true, text: 'Animal Lifecycle (Months)', color: '#94a3b8', font: { size: 10, weight: 'bold' } },
+                            grid: { color: 'rgba(255, 255, 255, 0.03)' },
+                            ticks: { color: '#64748b' }
+                        },
+                        y: {
+                            title: { display: true, text: 'Live Weight (kg)', color: '#94a3b8', font: { size: 10, weight: 'bold' } },
+                            grid: { color: 'rgba(255, 255, 255, 0.03)' },
+                            ticks: { color: '#64748b' },
+                            suggestedMax: 360
+                        }
+                    },
+                    onClick: (event, elements) => {
+                        if (elements.length > 0) {
+                            const index = elements[0].index;
+                            activeMonth = index;
+                            document.getElementById('ageSlider').value = index;
+                            updateInteractiveState();
+                        }
+                    }
+                }
+            };
+
+            if (chartInstance) {
+                chartInstance.destroy();
+            }
+            chartInstance = new Chart(document.getElementById('growthChart'), config);
+        }
+
+        // Keep UI element layers in complete synchronicity
+        function updateInteractiveState() {
+            const params = breedDatabase[currentBreedKey];
+            updateParamDisplays(params);
+            evaluateAtMonth(activeMonth);
+
+            // Re-render chart dataset target value
+            if (chartInstance) {
+                const highlightData = Array(49).fill(null);
+                highlightData[activeMonth] = f(activeMonth, params).toFixed(2);
+                chartInstance.data.datasets[1].data = highlightData;
+                chartInstance.data.datasets[0].data = Array.from({length: 49}, (_, i) => f(i, params).toFixed(2));
+                chartInstance.data.datasets[0].label = `${params.name} (Live Weight - kg)`;
+                chartInstance.update();
+            }
+        }
+
+        // Establish and register global events
+        document.getElementById('breedSelect').addEventListener('change', (e) => {
+            currentBreedKey = e.target.value;
+            // Align active month roughly close to breed peak inflection when switching
+            const params = breedDatabase[currentBreedKey];
+            activeMonth = Math.round(Math.log(params.B) / params.k);
+            document.getElementById('ageSlider').value = activeMonth;
+            updateInteractiveState();
+        });
+
+        document.getElementById('ageSlider').addEventListener('input', (e) => {
+            activeMonth = parseInt(e.target.value);
+            updateInteractiveState();
+        });
+
+        window.onload = () => {
+            // Render beautiful mathematical equations with KaTeX on launch
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "$", right: "$", display: false}
+                ]
+            });
+            renderGrowthChart();
+            updateInteractiveState();
+        };
+    </script>
+</body>
+</html>
